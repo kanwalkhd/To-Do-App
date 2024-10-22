@@ -11,4 +11,11 @@ class ToDo(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'title'], name='unique_user_title')
+        ]
 
+    def __str__(self):
+        return f"{self.title} - {'Completed' if self.completed else 'Pending'}"
